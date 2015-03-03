@@ -1,0 +1,9 @@
+# Ignore irrelevant files from the Sublime Text editor
+*.sublime-workspace
+*.sublime-project
+
+# Ignore compiled Python code
+*.pyc
+
+# Ignore the venv directory
+venv/
