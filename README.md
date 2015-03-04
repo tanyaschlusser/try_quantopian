@@ -38,6 +38,20 @@ pip install -r requirements.txt
 **Heroku database**
 First get a [heroku](http://heroku.com) account, and then click on the Python icon to make a Python app.
 
+    git clone https://github.com/tanyaschlusser/try_quantopian.git
+    cd try_quantopian
+    virtualenv venv
+    source venv/bin/activate
+    pip install -r requirements.txt
+    heroku login
+    heroku create
+    heroku apps:create tanya-try-quantopian
+    heroku addons:add heroku-postgresql
+    heroku config  # to get the database URL
+    heroku pg:psql  # launch a local db connection
+
+
+
 These instructions help to
 [deploy in Git](https://devcenter.heroku.com/articles/git).
 

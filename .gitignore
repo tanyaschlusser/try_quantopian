@@ -7,3 +7,4 @@
 
 # Ignore the venv directory
 venv/
+data/
