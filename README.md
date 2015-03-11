@@ -99,7 +99,10 @@ The [Postgres 9.3 manual] [pgmanual].
 
 * Quantopian: sharing a link on Sean's account
 * Github repo: [Our github repo] [repo]
-* Collaboration: [we have a shared ipython notebook on Sagemath] [sage]
+* Collaboration: [we have a shared IPython notebook on Sagemath] [sage]
+  - By default network conenctions are disabled on the cloud,
+    so you must go the 'settings' page and  email
+    the help contact to enable network access
 
 [heroku]: https://www.heroku.com/
 [repo]: https://github.com/tanyaschlusser/try_quantopian.git
