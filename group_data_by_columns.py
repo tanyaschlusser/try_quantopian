@@ -46,8 +46,10 @@ SOURCES = {OCV:ocv_df, HL:hl_df}
 
 
 # Output
-ocv_df.to_csv(os.path.join("data", OCV + ".csv"), index=False)
-hl_df.to_csv(os.path.join("data", HL + ".csv"), index=False)
+ocv_df.to_csv(
+        os.path.join("data", "generated__" + OCV + ".csv"), index=False)
+hl_df.to_csv(
+        os.path.join("data", "generated__" + HL + ".csv"), index=False)
 
 
 # ------------------------------------------- Create Tables ----- #
@@ -59,7 +61,7 @@ boilerplate = (
         " * dataset on https://quantquote.com/historical-stock-data"
         " */\n\n")
 
-fname = "create_tables.sql"
+fname = "generated__create_tables.sql"
 with open(os.path.join("sql", fname), "w") as outfile:
     outfile.write(boilerplate.format(fname))
     outfile.write((
@@ -91,7 +93,7 @@ def create_view(sourcename, destination, col=None):
     outfile.write("\nFROM {};\n\n".format(sourcename))
 
 
-fname = "create_single_datatype_views.sql"
+fname = "generated__create_single_datatype_views.sql"
 with open(os.path.join("sql", fname), "w") as outfile:
     outfile.write(boilerplate.format(fname))
     create_view(HL, "high")
@@ -102,7 +104,7 @@ with open(os.path.join("sql", fname), "w") as outfile:
     
 
 # --------------------------------------------------- Views ----- #
-fname = "insert_data.sql"
+fname = "generated__insert_data.sql"
 with open(os.path.join("sql", fname), "w") as outfile:
     outfile.write(boilerplate.format(fname))
     outfile.write((
