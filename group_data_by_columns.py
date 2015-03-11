@@ -37,8 +37,8 @@ for fname in glob.glob(os.path.join(
 
 # Convert the date format to ISO (YYYY-MM-DD)
 def convert_date(yyyymmdd):
-    ymd = str(yyyymmdd)
-    return "-".join((ymd[0:4], ymd[4:6], ymd[6:]))
+    ymd = str(int(yyyymmdd))
+    return "-".join((ymd[0:4], ymd[4:6], ymd[6:8]))
 
 ocv_df["date"] = ocv_df["date"].apply(convert_date)
 hl_df["date"] = hl_df["date"].apply(convert_date)
@@ -65,13 +65,13 @@ with open(os.path.join("sql", fname), "w") as outfile:
     outfile.write((
             "CREATE TABLE IF NOT EXISTS {} (\n"
             "    dt date NOT NULL PRIMARY KEY,\n").format(OCV))
-    outfile.write(",\n    ".join("{} double precision".format(c)
+    outfile.write(",\n    ".join("{} real".format(c)
             for c in list(ocv_df.columns.values)[1:]))
     outfile.write(");\n\n")
     outfile.write((
             "CREATE TABLE IF NOT EXISTS {} (\n"
             "    dt date NOT NULL PRIMARY KEY,\n").format(HL))
-    outfile.write(",\n    ".join("{} double precision".format(c)
+    outfile.write(",\n    ".join("{} real".format(c)
             for c in list(hl_df.columns.values)[1:]))
     outfile.write(");\n\n")
 
@@ -110,9 +110,9 @@ with open(os.path.join("sql", fname), "w") as outfile:
             " *     Run this from above the sql and data directories,\n"
             " *     in the main project directory.\n */\n\n"))
     outfile.write((
-        "\\COPY {0} FROM 'data/{0}.csv'\n"
-        "       WITH (CSV, NULL '', HEADER);\n\n").format(OCV))
+        "\\COPY {0} FROM 'data/{0}.csv'"
+        "  WITH (FORMAT CSV, NULL '', HEADER)\n\n").format(OCV))
     outfile.write((
-        "\\COPY {0} FROM 'data/{0}.csv'\n"
-        "       WITH (CSV, NULL '', HEADER);\n").format(HL))
+        "\\COPY {0} FROM 'data/{0}.csv'"
+        "  WITH (FORMAT CSV, NULL '', HEADER)\n").format(HL))
 
