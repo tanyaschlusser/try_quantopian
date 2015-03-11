@@ -46,10 +46,8 @@ SOURCES = {OCV:ocv_df, HL:hl_df}
 
 
 # Output
-ocv_df.to_csv(
-        os.path.join("data", "generated__" + OCV + ".csv"), index=False)
-hl_df.to_csv(
-        os.path.join("data", "generated__" + HL + ".csv"), index=False)
+ocv_df.to_csv(os.path.join("data", OCV + ".csv"), index=False)
+hl_df.to_csv( os.path.join("data", HL + ".csv"), index=False)
 
 
 # ------------------------------------------- Create Tables ----- #
