@@ -1,0 +1,35 @@
+{% extends "base.html" %}  
+{%block title %}Index page{% endblock %}
+{% block content %}
+{# Review form #}
+<h1>First analyses</h1>
+
+For now some analysis here
+later images that link to the other analysis pages.
+
+<table>
+  <tr>
+    <th>date</th><th>spread</th>
+  </tr>
+{#  
+stock = [ {'date':'2003-01-01', 'aapl':2.5},
+          {'date':'2003-01-02', 'aapl':2.3},
+          ...
+          {'date':'2003-01-02', 'aapl':2.3}
+      ]
+#}
+{% for row in stock %}
+  <tr>
+  <td>{{ row.date }}</td><td> {{ '%0.4f' % row.aapl|float }} </td>
+  </tr>
+{% endfor %}
+</table>
+
+<ul>
+{% for m in mongo_collections %}
+<li>{{ m }}</li>
+{% endfor %}
+</ul>
+
+{# Summary review of app #}
+{% endblock %}

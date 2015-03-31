@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <base href="{{ url_for('show_entries') }}">
+
+  <link type="text/css" rel="stylesheet"
+        href={{ url_for('static', filename='rickshaw.min.css') }} >
+  <script src={{ url_for('static', filename='d3.v3.min.js') }}
+          charset="utf-8"></script>
+  <script src={{ url_for('static', filename="d3.layout.min.js") }}
+          charset="utf-8"></script>
+  <script src={{ url_for('static', filename="rickshaw.min.js") }}
+          charset="utf-8"></script>
+
+  <link rel=stylesheet type=text/css
+        href="{{ url_for('static', filename='style.css') }}">
+  <link rel="shortcut icon"
+        type="image/png"
+        href="{{ url_for('static', filename='images/favicon.png') }}">
+  {% block head %}
+  <title>{%block title %}{% endblock %} - Try Quantopian</title>
+  {% block addlstyle %}{% endblock %}
+  {% endblock %}
+</head>
+<body>
+<div class=page>
+  <header class=metanav>
+    {% if not session.logged_in %}
+      <a href="{{ url_for('login') }}">log in</a>
+    {% else %}
+      <a href="{{ url_for('logout') }}">log out</a>
+    {% endif %}
+  </header>
+  {% for message in get_flashed_messages() %}
+    <div class=flash>{{ message }}</div>
+  {% endfor %}
+  {% block content %}
+  {% endblock %}
+</div>
+</body>
+</html>
+
+
