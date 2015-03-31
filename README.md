@@ -64,11 +64,17 @@ To look at the logs while the app is running:
 ```
 
 
-**Heroku database**
+**Heroku database and Mongo**
 
 The Heroku [Postgres Hobby Tier] [heroku_hobby] has a 10,000 row limit
 and the Quantcast data alone are up to 3925 rows each, so we have
 to be creative and have quite a few columns if we're loading data on heroku.
+The [MongoLabs developer tier] [mongolab] gives 500 free
+megabyes, so we are using them.
+
+Example URLs:
+- **Postgres** postgres://<dbuser>:<dbpassword>@<hostname>:<port>/<database>
+- **Mongo** mongodb://<dbuser>:<dbpassword>@<hostname>:<port>/<database>
 
 ```bash
 heroku addons:add heroku-postgresql
@@ -76,6 +82,7 @@ heroku config  # to get the database URL
 # And you need to set the remote Heroku
 # environment variable DATABASE_URL
 heroku config:set DATABASE_URL=<the database url>
+heroku config:set MONGO_URL=<the mongoDB url>
 ```
 
 And then restart:
