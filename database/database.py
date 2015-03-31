@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # database.py
+import os
 import pg8000
 import urlparse
 
