@@ -7,20 +7,19 @@ import urlparse
 
 ## ------------------------------------------------- Database parts ----- ##
 urlparse.uses_netloc.append("postgres")
-__url = urlparse.urlparse(os.environ["DATABASE_URL"])
-
 
 class Database:
     def __init__(self):
         self._connect_db()
 
     def _connect_db(self):
+        self.__url = urlparse.urlparse(os.environ["DATABASE_URL"])
         self.db = pg8000.connect(
-                database=__url.path[1:],
-                host=__url.hostname,
-                port=__url.port,
-                user=__url.username,
-                password=__url.password,
+                database=self.__url.path[1:],
+                host=self.__url.hostname,
+                port=self.__url.port,
+                user=self.__url.username,
+                password=self.__url.password,
                 ssl=True
             )   
 
