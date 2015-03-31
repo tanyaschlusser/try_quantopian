@@ -74,7 +74,9 @@ megabyes, so we are using them.
 
 Example URLs:
 - **Postgres** postgres://<dbuser>:<dbpassword>@<hostname>:<port>/<database>
-- **Mongo** mongodb://<dbuser>:<dbpassword>@<hostname>:<port>/<database>
+- **Mongo** mongodb://<dbuser>:<dbpassword>@<hostname>:<port>/<database> <br/>
+  Where the user name and password are not for the MongoLab account, but
+  whatever was set for that specific database
 
 ```bash
 heroku addons:add heroku-postgresql
@@ -82,7 +84,7 @@ heroku config  # to get the database URL
 # And you need to set the remote Heroku
 # environment variable DATABASE_URL
 heroku config:set DATABASE_URL=<the database url>
-heroku config:set MONGO_URL=<the mongoDB url>
+heroku config:set MONGO_URI=<the mongoDB url>
 ```
 
 And then restart:
