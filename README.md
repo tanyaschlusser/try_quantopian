@@ -21,9 +21,43 @@ git push origin master
 
 ##Getting started
 
-Quantopian [API Overview] [overview]
+###Quantopian [API Overview] [overview]
+Symbols:
+
+        symbol('goog')  # single
+        symbols('goog', 'fb')  # multiple
+        sid(24)  # unique ID to Quantopian -- 24 is for aapl
+        
+- [Fundamentals] [fundamentals_reference]:
+    + Available for 8000 companies, with over 670 metrics
+    + Accessed using **get_fundamentals** with the same syntax as SQLAlchemy;
+      returns a pandas dataframe
+    + Not available during live trading, only in **before_trading_start**
+      (once per day) to be stored in the **context** and used in the function
+      **handle_data**
+      
+- [Ordering][ordering_reference]: market, limit, stop, stop limit
+- [Scheduling][daterules]: frequency in days, weeks, months,
+  plus order time of day in minutes
+- [Allowed modules][modules]
+- [Example algorithms][sample_basic]
+
+The API is thin -- it's really just about trading. They provide
+[zipline] [zipline], their backtest functions, as open-source code
+([github repo][zipline-git] / [pypi page][zipline-pypi]) to test outside
+of the quantopian environment. [Here is a how-to] [zipline-howto].
+
+[zipline]: http://www.zipline.io/#quickstart
+[zipline-git]: https://github.com/quantopian/zipline
+[zipline-pypi]: https://pypi.python.org/pypi/zipline/0.7.0
+[zipline-howto]: http://twiecki.github.io/zipline_in_the_cloud_talk
 
 [overview]: https://www.quantopian.com/help#ide-api
+[fundamentals_reference]: https://www.quantopian.com/help/fundamentals
+[ordering_reference]: https://www.quantopian.com/help#ide-ordering
+[daterules]: https://www.quantopian.com/help#ide-daterules
+[modules]: https://www.quantopian.com/help#ide-module-import
+[sample_basic]: https://www.quantopian.com/help#ide-sample-basic
 
 
 ###Heroku
@@ -57,11 +91,16 @@ heroku apps:create tanya-try-quantopian
 
 These instructions help to
 [deploy in Git](https://devcenter.heroku.com/articles/git).
+And we are going to copy the [Flask microblog tutorial] [flaskr]
+for the main code, except use PyMongo to conncet to a MongoLab
+MongoDB database instead of SQLite3 and a SQL database.
 
 To look at the logs while the app is running:
 ```
     heroku logs --tail
 ```
+
+[flaskr]: http://flask.pocoo.org/docs/0.10/tutorial/introduction/
 
 
 **Heroku database and Mongo**
