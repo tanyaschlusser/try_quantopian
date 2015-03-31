@@ -62,6 +62,7 @@ class Database:
                 parameterized query.
                 We use the default format: SELECT * FROM TABLE WHERE col1 = '%s'
         """
+        cur = None
         try:
             cur = self.query(q, args=args)
             if cur is None:
