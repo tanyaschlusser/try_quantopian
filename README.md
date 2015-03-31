@@ -92,7 +92,7 @@ The version of Postgres on Heroku right now is 9.3.
 The [Postgres 9.3 manual] [pgmanual].
 
 [pgmanual]: http://www.postgresql.org/docs/9.3/static/
-[heroku-hobby]: https://addons.heroku.com/heroku-postgresql
+[heroku_hobby]: https://addons.heroku.com/heroku-postgresql
 
 
 ##Collaboration
@@ -100,9 +100,31 @@ The [Postgres 9.3 manual] [pgmanual].
 * Quantopian: sharing a link on Sean's account
 * Github repo: [Our github repo] [repo]
 * Collaboration: [we have a shared IPython notebook on Sagemath] [sage]
-  - By default network conenctions are disabled on the cloud,
-    so you must go the 'settings' page and  email
-    the help contact to enable network access
+
+
+###Sagemath cloud
+By default network conenctions are disabled on the Sagemath cloud,
+so you must go the 'settings' page and  email the help contact to
+enable network access.
+
+Pip is not installed on the sagemath cloud, and the user accounts
+do not have root privilege, so to install libraries you should download
+the actual package source code, and install from source. You need to
+navigate to the 'Files' section of the page, then type a command in
+the small dialog box that says `Terminal command ...`:
+
+            curl -o pg8000.tar.gz https://pypi.python.org/packages/source/p/pg8000/pg8000-1.10.2.tar.gz#md5=7f7cfa3b4c4b103999f584ad3d813ded
+            tar -xzf pg8000
+            cd pg8000
+            sage --python setup.py install --user
+
+Or else you can use easy_install:
+
+        wget https://bootstrap.pypa.io/ez_setup.py -O
+        sage --python ez_setup.py --user
+        easy_install --user pg8000
+        easy_install --user zipline
+
 
 [heroku]: https://www.heroku.com/
 [repo]: https://github.com/tanyaschlusser/try_quantopian.git
@@ -137,6 +159,12 @@ The [Postgres 9.3 manual] [pgmanual].
 ##Presentation
 
 This repo is for the Heroku content that will show off algorithms and
-data analysis. There currently isn't much of a data exploration option
-in Quantopian so our analysis will be shown on heroku and collaborated
-on the [Sagemath cloud environment] [sage].
+data analysis. We will adapt
+['How to make a tumblelog app using Flask + MongoEngine'][flask_mongo]
+to make a blog using Flask and MongoLab.
+This is [a link to mongolab] [mongolab]; chosen because
+there is a free (500MB) tier for development. We've used all of the free
+Heroku Postgres database for the S&P500 data.
+
+[mongolab]: https://mongolab.com/
+[flask_mongo]: http://docs.mongodb.org/ecosystem/tutorial/write-a-tumblelog-application-with-flask-mongoengine/
