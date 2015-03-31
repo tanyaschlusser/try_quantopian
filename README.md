@@ -207,12 +207,10 @@ Or else you can use easy_install:
 ##Presentation
 
 This repo is for the Heroku content that will show off algorithms and
-data analysis. We will adapt
-['How to make a tumblelog app using Flask + MongoEngine'][flask_mongo]
-to make a blog using Flask and MongoLab.
+data analysis. We will adapt the [Flask microblog tutorial] [flaskr]
+to make a blog using Flask and MongoLab via pymongo.
 This is [a link to mongolab] [mongolab]; chosen because
 there is a free (500MB) tier for development. We've used all of the free
 Heroku Postgres database for the S&P500 data.
 
 [mongolab]: https://mongolab.com/
-[flask_mongo]: http://docs.mongodb.org/ecosystem/tutorial/write-a-tumblelog-application-with-flask-mongoengine/
