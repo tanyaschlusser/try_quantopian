@@ -47,24 +47,8 @@ def close_connection(exception):
 @app.route("/")
 def show_entries():
     """Show all of the blog entries."""
-    coll = mongo.db.entries
     entries = mongo.db.entries.find(sort=[('$natural', -1)])
     return render_template('show_entries.html', entries=entries)
-
-
-@app.route("/scratch")
-def scratch():
-    """Junk I don't want to delete."""
-    # cur = g.db.execute('select title, text from entries order by id desc')
-    # entries = [dict(title=row[0], text=row[1]) for row in cur.fetchall()]
-    # 
-    # apple_march_2005 = get_db().select("""
-    #         SELECT dt, aapl FROM spread
-    #         WHERE dt BETWEEN %s AND %s;
-    #     """,
-    #     args=('2003-03-05','2003-03-08'),columns=('date', 'aapl'))
-    # mongo_collections = mongo.db.collection_names()
-    # return render_template('index.html', stock=apple_march_2005, mongo_collections=mongo_collections)
 
 
 @app.route('/add', methods=['POST'])
