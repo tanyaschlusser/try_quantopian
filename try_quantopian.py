@@ -5,11 +5,13 @@
 import os
 import datetime
 import pg8000  # Postgres database (we are using 9.3)
+import urllib
 import urlparse
+
 from flask import Flask \
     ,flash, g, render_template, redirect, request \
     ,session, url_for
-from flask.ext.pymongo import PyMongo
+from flask.ext.pymongo import PyMongo 
 
 import database
 
@@ -74,7 +76,6 @@ def linechart():
          color: palette.color()},
     """
     stock_data = []
-    print "REQUEST.args:", request.args
     for k in request.args.keys():
         print k, ": ", request.args[k]
     if 'stocks' in request.args:
@@ -115,6 +116,53 @@ def logout():
     session.pop('logged_in', None)
     flash('You were logged out')
     return redirect(url_for('show_entries'))
+
+
+@app.route('/remove')
+@app.route('/remove/<post_title>')
+def remove_entry(post_title=None):
+    """Delete a blog post (must be logged in)."""
+    if not session.get('logged_in'):
+        return redirect(url_for('login'))
+    if post_title is None:
+        return redirect(url_for('show_entries'))
+    else:
+        post_title = post_title.decode('UTF-8')
+        result = mongo.db.entries.remove({"title" : post_title})
+        if result:
+            flash('New entry was successfully deleted')
+    return redirect(url_for('show_entries'))
+
+
+@app.route('/edit')
+@app.route('/edit/<post_title>', methods=['GET', 'POST'])
+def edit_entry(post_title=None):
+    """Update a blog post (must be logged in)."""
+    if not session.get('logged_in'):
+        return redirect(url_for('login'))
+    if post_title is None:
+        return redirect(url_for('show_entries'))
+    elif request.method == 'GET':
+        # If GET, show the current contents
+        post_title = post_title.decode('UTF-8')
+        entry = mongo.db.entries.find_one({"title" : post_title})
+        if entry:
+            return render_template('edit_entry.html', entry=entry)
+        else:
+            flash("Could not find {}".format(post_title))
+            return redirect(url_for('show_entries'))
+    else:  # method is 'POST'
+        # If POST, perform the update or say post not found.
+        post_title = post_title.decode('UTF-8')
+        post = {"author": app.config['AUTHOR'],
+            "title": request.form['title'],
+            "text": request.form['text'],
+            "date": datetime.datetime.utcnow()}
+        result = mongo.db.entries.find_and_modify({"title": post_title}, post)
+        if result:
+            flash('New entry was successfully updated')
+    return redirect(url_for('show_entries'))
+
 
 
 if __name__ == "__main__":

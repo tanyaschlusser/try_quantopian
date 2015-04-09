@@ -11,11 +11,30 @@
       </dl>
     </form>
   {% endif %}
-  <ul class=entries>
+  <main class=entries>
   {% for entry in entries %}
-    <li><h2>{{ entry.title }}</h2>{{ entry.text|safe }}
+    <section {% if not loop.first %} class="truncated-post" {% endif %}  >
+
+      <button onclick=confirm_redirect("{{ url_for('remove_entry') }}/{{ entry.title|urlencode }}")>
+      Remove</button>
+      <button onclick=goto("{{ url_for('edit_entry') }}/{{ entry.title|urlencode }}")>Edit</button>
+
+    <h2>{{ entry.title }}</h2>{{ entry.text|safe }}
+    </section>
   {% else %}
-    <li><em>Unbelievable.  No entries here so far</em>
+    <section><em>Unbelievable.  No entries here so far</em></section>
   {% endfor %}
-  </ul>
+  </main>
+<script>
+function confirm_redirect(redirect_url) {
+    if (confirm("Are you sure?")) {
+        location.href = redirect_url;
+    }
+}
+
+function goto(redirect_url) {
+  location.href = redirect_url;
+}
+
+</script>
 {% endblock %}
