@@ -67,7 +67,7 @@ def add_entry():
     return redirect(url_for('show_entries'))
 
 
-@app.route("/graph")
+@app.route("/graph", methods=['GET', 'POST'])
 def linechart():
     """Line chart using Rickshaw. 
 
@@ -76,13 +76,41 @@ def linechart():
          color: palette.color()},
     """
     stock_data = []
-    for k in request.args.keys():
-        print k, ": ", request.args[k]
-    if 'stocks' in request.args:
-        stocks = request.args['stocks']
-        stocks = [s.lower() for s in stocks.strip().split()]
-    else:
+    ## Create a set of the available stocks to check against
+    ## the request, so we only ask for stocks that we have.
+    query = """
+            SELECT column_name FROM information_schema.columns
+            WHERE table_name = 'close';
+            """ 
+    available_stocks = get_db().select(query)
+    available_stocks = reduce(
+            lambda x, y: x.union(y.values()), available_stocks, set())
+    available_stocks.remove('dt')
+
+    ## break it up into groups
+    groups = ['a', 'b', 'c', 'de', 'fgh', 'ijkl', 'mn', 'opq', 'rs', 'tuv', 'wxyz']
+    grouped_stocks = dict((g,[]) for g in groups)
+    for s in available_stocks:
+        for g, l in grouped_stocks.iteritems():
+            if s[0] in g:
+                l.append(s)
+    for v in grouped_stocks.values():
+        v.sort()
+    
+    stocks = ['aapl', 'goog', 'yhoo']
+    if request.method == 'POST':
+        stocks = []
+        for list_suffix in grouped_stocks.keys():
+            stocks.extend(request.form.getlist('stocks_{}'.format(list_suffix)))
+        stocks = [s.lower() for s in stocks]
+        # Omit here any stocks that do not exist in our database
+        stocks = [s for s in stocks if s in available_stocks]
+
+    # Make sure we put _something_ on the chart
+    if len(stocks) == 0:
         stocks = ['aapl', 'goog', 'yhoo']
+
+    # OK, do the query
     query = """
             SELECT EXTRACT (EPOCH FROM dt), {} FROM close
             WHERE dt between '2001-01-01' AND '2010-01-31';
@@ -92,7 +120,11 @@ def linechart():
         if data:
             stock_data.append(dict(name=s, data=data))
 
-    return render_template('line_chart.html', stock_data=stock_data)
+    return render_template(
+            'line_chart.html',
+            groups = groups,
+            grouped_stocks=grouped_stocks,
+            stock_data=stock_data)
 
 
 @app.route('/login', methods=['GET', 'POST'])
